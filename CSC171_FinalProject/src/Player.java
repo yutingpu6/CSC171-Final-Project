@@ -1,7 +1,9 @@
 // Last modified 3/28/24
 
+import javax.swing.JComponent;
 
-public class Player {
+
+public class Player extends JComponent {
 	private int hp;
 	private boolean isAlive;
 	
