@@ -6,10 +6,14 @@ import javax.swing.JComponent;
 public class Player extends JComponent {
 	private int hp;
 	private boolean isAlive;
+	private double x;
+	private double y;
 	
-	public Player(int hp, boolean isAlive) {
+	public Player(int hp, boolean isAlive, double x, double y) {
 		this.hp = hp;
 		this.isAlive = isAlive;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public int getHp() {
