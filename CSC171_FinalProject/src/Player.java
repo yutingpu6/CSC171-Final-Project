@@ -1,20 +1,21 @@
-// Last modified 3/28/24
-
 import javax.swing.JComponent;
+import java.awt.Graphics;
+import java.awt.Color;
 
 
 public class Player extends JComponent {
-	private int hp;
-	private boolean isAlive;
-	private double xPos, yPos, velocityX, velocityY;
+	int hp;
+	boolean isAlive;
+	double xPos, yPos, velocityX, velocityY; 
+	int time = 10;
+	int length = 100;
+	int height = 350;
 	
-	public Player(int hp, boolean isAlive, double xPos, double yPos, double velocityX, double velocityY) {
+	public Player(int hp, boolean isAlive, double xPos, double yPos) {
 		this.hp = hp;
 		this.isAlive = isAlive;
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
 	}
 	
 	public int getHp() {
@@ -45,14 +46,19 @@ public class Player extends JComponent {
 	
 	// Most of this is taken from Workshop 7 code
 	
+	 public void draw(Graphics g) {
+		 	g.setColor(Color.RED);
+	        g.drawRect((int) (xPos - (length/2)), (int) (yPos - (height/2)), (int) (xPos + (length/2)), (int) (yPos + (height/2)));
+	    }
+	
 	public void updatePosition(double time) {
 		xPos += velocityX * time;
 		yPos += velocityY * time;
 	}
 	
 	public void setVelocity(double vX, double vY) {
-		velocityX = vX;
-		velocityY = vY;
+		this.velocityX = vX;
+		this.velocityY = vY;
 	}
 	
 	public double distance(double x, double y, double x2, double y2) {
