@@ -8,8 +8,8 @@ public class Player extends JComponent {
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
 	int time = 10;
-	int length = 100;
-	int height = 350;
+	double length = 100;
+	double height = 300;
 	
 	public Player(int hp, boolean isAlive, double xPos, double yPos) {
 		this.hp = hp;
@@ -35,6 +35,10 @@ public class Player extends JComponent {
 		return yPos;
 	}
 	
+	public int getTime() {
+		return time;
+	}
+	
 	public void setHp(int dmg) {
 		hp -= dmg;
 	}
@@ -48,7 +52,8 @@ public class Player extends JComponent {
 	
 	 public void draw(Graphics g) {
 		 	g.setColor(Color.RED);
-	        g.drawRect((int) (xPos - (length/2)), (int) (yPos - (height/2)), (int) (xPos + (length/2)), (int) (yPos + (height/2)));
+		 	// Too big rn
+	        g.drawRect((int) (xPos-(length/2)), (int) (yPos - (height/2)), (int) (xPos + (length/2)), (int) (yPos + (height/2)));
 	    }
 	
 	public void updatePosition(double time) {
