@@ -1,23 +1,75 @@
-import javax.swing.JComponent;
-import java.awt.Graphics;
-import java.awt.Color;
-
+import javax.swing.*;
+import java.awt.*;
 
 public class Player extends JComponent {
 	int hp;
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
 	int time = 10;
-	double length = 100;
-	double height = 300;
+	Arm arm;
+	boolean drawArm = false;
+	Color color;
+    String name;
+    double width = 60;
+    double height = 120;
 	
-	public Player(int hp, boolean isAlive, double xPos, double yPos) {
-		this.hp = hp;
-		this.isAlive = isAlive;
-		this.xPos = xPos;
-		this.yPos = yPos;
-	}
+    public Player(int hp, boolean isAlive, double xPos, double yPos, Color color, String name) {
+        this.hp = hp;
+        this.isAlive = isAlive;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.color = color;
+        this.name = name;
+    }
 	
+    public void attack1(Player opponent) {
+    	arm = new Arm(xPos + 60, yPos);
+        if (opponent.isAlive) {
+        	arm.setxPos(xPos + width/2);
+        	arm.setyPos(yPos);
+        	drawArm = true;
+        	if(arm.detectCollision(opponent)==true) {
+        		setHp(-20);
+        		if (hp <= 0) {
+        			hp = 0;
+        	        isAlive = false;
+        	    }
+        	}
+        }
+    }
+    
+    public void attack2(Player opponent) {
+    	arm = new Arm(xPos - 60, yPos);
+        if (opponent.isAlive) {
+        	arm.setxPos(xPos - 30);
+        	arm.setyPos(yPos);
+        	drawArm = true;
+        	if(arm.detectCollision(opponent)==true) {
+        		setHp(-20);
+        		if (hp <= 0) {
+        			hp = 0;
+        	        isAlive = false;
+        	    }
+        	}
+        }
+    }
+    
+    public void lowerArm() {
+    	arm.setxPos(xPos);
+    	arm.setyPos(yPos);
+    }
+    /*
+    public void receiveDamage(int damage, Player other) {
+    	if(arm.detectCollision(other)==true) {
+    		setHp(damage);
+    		if (hp <= 0) {
+    			hp = 0;
+    	        isAlive = false;
+    	    }
+    	}
+    }
+    */
+    
 	public int getHp() {
 		return hp;
 	}
@@ -27,8 +79,7 @@ public class Player extends JComponent {
 	}
 	
 	public double getXPos() {
-		return xPos; // Don't wanna interfere with JComponent existing
-					// method getX(), so I named the variables xPos and yPos
+		return xPos; 
 	}
 	
 	public double getYPos() {
@@ -48,13 +99,35 @@ public class Player extends JComponent {
 			isAlive = false;
 	}
 	
-	// Most of this is taken from Workshop 7 code
-	
 	 public void draw(Graphics g) {
-		 	g.setColor(Color.RED);
-		 	// Too big rn
-	        g.drawRect((int) (xPos-(length/2)), (int) (yPos - (height/2)), (int) (xPos + (length/2)), (int) (yPos + (height/2)));
+		 g.setColor(Color.RED);
+	     g.fillRect((int) (xPos - width / 2), (int) (yPos - height / 2), (int) width, (int) height);
+	     drawHealthBar(g);
 	    }
+	 
+	 private void drawHealthBar(Graphics g) {
+	        int healthBarWidth = 100;
+	        int healthBarHeight = 10;
+	       
+	        int healthBarX = (int) xPos - (healthBarWidth / 2); 
+	        int healthBarY = (int) (yPos - height / 2) - healthBarHeight - 20; 
+
+	       
+	        g.setColor(Color.GRAY);
+	        g.fillRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+	        
+	        
+	        double healthPercentage = (double) hp / 100;
+	        int currentHealthWidth = (int) (healthBarWidth * healthPercentage);
+
+	        g.setColor(Color.GREEN);
+	        g.fillRect(healthBarX, healthBarY, currentHealthWidth, healthBarHeight);
+
+	        
+	        g.setColor(Color.BLACK);
+	        g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+	    }
+
 	
 	public void updatePosition(double time) {
 		xPos += velocityX * time;
@@ -79,9 +152,6 @@ public class Player extends JComponent {
 		else
 			return false;
 	}
-	
-	// Do what on collision? Probably not bounce, maybe just stop in place?
-	// Is that like setting velocity to 0?
 	
 	public void resolveCollision(Player other) {
 		if (detectCollision(other) == true)
