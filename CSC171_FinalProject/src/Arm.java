@@ -3,8 +3,8 @@ import java.awt.Graphics;
 
 public class Arm{
 	double xPos, yPos;
-	double width = 60;
-	double height = 30;
+	double width = 70;
+	double height = 35;
 	
 	
 	public Arm(double xPos, double yPos) {
@@ -32,12 +32,12 @@ public class Arm{
 	
 	 public void draw1(Graphics g) {
 		 g.setColor(Color.BLUE);
-	     g.fillRect((int) xPos, (int) (yPos-30), (int) (width), (int) height);
+	     g.fillRect((int) xPos, (int) (yPos-50), (int) (width), (int) height);
 	    }
 	 
 	 public void draw2(Graphics g) {
 		 g.setColor(Color.BLUE);
-		 g.fillRect((int) xPos, (int) (yPos-30), (int) (width), (int) height);
+		 g.fillRect((int) (xPos-150), (int) (yPos-50), (int) (width), (int) height);
 	    }
 
 	public double getxPos() {

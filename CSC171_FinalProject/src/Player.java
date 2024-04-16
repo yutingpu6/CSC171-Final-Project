@@ -9,17 +9,18 @@ public class Player extends JComponent {
 	Arm arm;
 	boolean drawArm = false;
 	Color color;
-    String name;
-    double width = 60;
-    double height = 120;
+    String path;
+    double width = 120;
+    double height = 390;
+    Image sprite;
 	
-    public Player(int hp, boolean isAlive, double xPos, double yPos, Color color, String name) {
+    public Player(int hp, boolean isAlive, double xPos, double yPos, Color color, String path) {
         this.hp = hp;
         this.isAlive = isAlive;
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
-        this.name = name;
+        this.path = path;
     }
 	
     public void attack1(Player opponent) {
@@ -27,6 +28,7 @@ public class Player extends JComponent {
         if (opponent.isAlive) {
         	arm.setxPos(xPos + width/2);
         	arm.setyPos(yPos);
+        	setPath("src/BlueSprite3.png");
         	drawArm = true;
         	if(arm.detectCollision(opponent)==true) {
         		setHp(-20);
@@ -43,6 +45,7 @@ public class Player extends JComponent {
         if (opponent.isAlive) {
         	arm.setxPos(xPos - 30);
         	arm.setyPos(yPos);
+        	setPath("src/RedSprite3.png");
         	drawArm = true;
         	if(arm.detectCollision(opponent)==true) {
         		setHp(-20);
@@ -54,54 +57,22 @@ public class Player extends JComponent {
         }
     }
     
-    public void lowerArm() {
-    	arm.setxPos(xPos);
-    	arm.setyPos(yPos);
+    public void lowerArm1() {
+    	arm.setxPos(0);
+    	arm.setyPos(800);
+    	setPath("src/BlueSprite1.png");
     }
-    /*
-    public void receiveDamage(int damage, Player other) {
-    	if(arm.detectCollision(other)==true) {
-    		setHp(damage);
-    		if (hp <= 0) {
-    			hp = 0;
-    	        isAlive = false;
-    	    }
-    	}
+    public void lowerArm2() {
+    	arm.setxPos(1440);
+    	arm.setyPos(800);
+    	setPath("src/RedSprite1.png");
     }
-    */
-    
-	public int getHp() {
-		return hp;
-	}
-	
-	public boolean getAlive() {
-		return isAlive;
-	}
-	
-	public double getXPos() {
-		return xPos; 
-	}
-	
-	public double getYPos() {
-		return yPos;
-	}
-	
-	public int getTime() {
-		return time;
-	}
-	
-	public void setHp(int dmg) {
-		hp -= dmg;
-	}
-	
-	public void setAlive() {
-		if (hp==0)
-			isAlive = false;
-	}
 	
 	 public void draw(Graphics g) {
 		 g.setColor(Color.RED);
 	     g.fillRect((int) (xPos - width / 2), (int) (yPos - height / 2), (int) width, (int) height);
+	     sprite = new ImageIcon(path).getImage();	     
+	     g.drawImage(sprite, (int)(xPos-width/2-40), (int)(yPos-height/2), null);
 	     drawHealthBar(g);
 	    }
 	 
@@ -156,5 +127,38 @@ public class Player extends JComponent {
 	public void resolveCollision(Player other) {
 		if (detectCollision(other) == true)
 			setVelocity(0,0);
+	}
+	
+	public int getHp() {
+		return hp;
+	}
+	
+	public boolean getAlive() {
+		return isAlive;
+	}
+	
+	public double getXPos() {
+		return xPos; 
+	}
+	
+	public double getYPos() {
+		return yPos;
+	}
+	
+	public int getTime() {
+		return time;
+	}
+	
+	public void setHp(int dmg) {
+		hp -= dmg;
+	}
+	
+	public void setAlive() {
+		if (hp==0)
+			isAlive = false;
+	}
+	
+	public void setPath(String newPath) {
+		path = newPath;
 	}
 }
