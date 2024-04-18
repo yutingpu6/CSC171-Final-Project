@@ -9,7 +9,6 @@ import java.util.Random;
 public class FightingGame extends JPanel {
     Player p1 = new Player(100, true, 300, 300, Color.BLUE, "Player 1");
     Player p2 = new Player(100, true, 800, 300, Color.GREEN, "Player 2");
-    Timer attackTimer;
     Random rand = new Random();
 
     public static void main(String[] args) {
@@ -32,23 +31,10 @@ public class FightingGame extends JPanel {
         setPreferredSize(new Dimension(1440, 900));
         Timer timer = new Timer(10, e -> repaint());
         timer.start();
-        startComputerAttacks();
-    }
-
-    private void startComputerAttacks() {
-        attackTimer = new Timer(1000, e -> {
-        		// attack every 1 second
-            if(rand.nextBoolean()) {
-                p2.attack(p1);
-                checkGameOver();
-            }
-        });
-        attackTimer.start();
     }
 
     private void checkGameOver() {
         if (!p1.isAlive || !p2.isAlive) {
-            attackTimer.stop();
             String winner = p1.isAlive ? "Player 1 wins!" : "Player 2 wins!";
             JOptionPane.showMessageDialog(this, winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
@@ -62,10 +48,17 @@ public class FightingGame extends JPanel {
     }
 
     public void keyPressed(KeyEvent e) {
-    		//space bar attack
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            p1.attack(p2);
-            checkGameOver();
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_A: // Player 1 attacks using key A
+                p1.attack(p2);
+                checkGameOver();
+                break;
+            case KeyEvent.VK_H: // Player 2 attacks using key H
+                p2.attack(p1);
+                checkGameOver();
+                break;
+            
+                //can add more attacks???
         }
     }
 }
