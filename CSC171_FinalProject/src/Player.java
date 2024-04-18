@@ -68,11 +68,19 @@ public class Player extends JComponent {
     	setPath("src/RedSprite1.png");
     }
 	
-	 public void draw(Graphics g) {
+	 public void draw1(Graphics g) {
 		 g.setColor(Color.RED);
 	     g.fillRect((int) (xPos - width / 2), (int) (yPos - height / 2), (int) width, (int) height);
 	     sprite = new ImageIcon(path).getImage();	     
 	     g.drawImage(sprite, (int)(xPos-width/2-40), (int)(yPos-height/2), null);
+	     drawHealthBar(g);
+	    }
+	 
+	 public void draw2(Graphics g) {
+		 g.setColor(Color.RED);
+	     g.fillRect((int) (xPos - width / 2), (int) (yPos - height / 2), (int) width, (int) height);
+	     sprite = new ImageIcon(path).getImage();	     
+	     g.drawImage(sprite, (int)(xPos-width/2-85), (int)(yPos-height/2), null);
 	     drawHealthBar(g);
 	    }
 	 
@@ -153,8 +161,8 @@ public class Player extends JComponent {
 		hp -= dmg;
 	}
 	
-	public void setAlive() {
-		if (hp==0)
+	public void checkAlive() {
+		if (hp<=0)
 			isAlive = false;
 	}
 	

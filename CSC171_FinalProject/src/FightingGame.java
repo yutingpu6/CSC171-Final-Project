@@ -41,8 +41,8 @@ public class FightingGame extends JPanel {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         g.drawImage(sprite, 0, 0,null);
-        p1.draw(g);
-        p2.draw(g);
+        p1.draw1(g);
+        p2.draw2(g);
         if(p1.drawArm == true)
         	p1.arm.draw1(g);
         if(p2.drawArm == true)

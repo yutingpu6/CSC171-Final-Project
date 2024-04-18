@@ -32,12 +32,12 @@ public class Arm{
 	
 	 public void draw1(Graphics g) {
 		 g.setColor(Color.BLUE);
-	     g.fillRect((int) xPos, (int) (yPos-50), (int) (width), (int) height);
+	     g.fillRect((int) xPos, (int) (yPos-130), (int) (width), (int) height);
 	    }
 	 
 	 public void draw2(Graphics g) {
 		 g.setColor(Color.BLUE);
-		 g.fillRect((int) (xPos-150), (int) (yPos-50), (int) (width), (int) height);
+		 g.fillRect((int) (xPos-100), (int) (yPos-130), (int) (width), (int) height);
 	    }
 
 	public double getxPos() {
