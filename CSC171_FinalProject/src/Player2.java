@@ -1,14 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
-public class Player extends JComponent implements KeyListener {
+public class Player2 extends JComponent implements KeyListener{
 	int hp;
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
 	int time = 10;
-	Arm arm;
+	Arm2 arm;
 	boolean drawArm = false;
 	Color color;
     String path;
@@ -16,23 +16,22 @@ public class Player extends JComponent implements KeyListener {
     double height = 390;
     Image sprite;
 	
-    public Player(int hp, boolean isAlive, double xPos, double yPos, Color color, String path) {
+    public Player2(int hp, boolean isAlive, double xPos, double yPos, Color color, String path) {
         this.hp = hp;
         this.isAlive = isAlive;
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
         this.path = path;
-        addKeyListener(this);
-        setFocusable(true);
     }
 	
-    public void attack(Player2 opponent) {
-    	arm = new Arm(xPos + 60, yPos);
+    
+    public void attack(Player opponent) {
+    	arm = new Arm2(xPos - 60, yPos);
         if (opponent.isAlive) {
-        	arm.setxPos(xPos + width/2);
+        	arm.setxPos(xPos - width/2);
         	arm.setyPos(yPos-110);
-        	setPath("src/BlueSprite3.png");
+        	setPath("src/RedSprite3.png");
         	//drawArm = true;
         	if(arm.detectCollision(opponent)==true) {
         		opponent.setHp(20);
@@ -40,21 +39,20 @@ public class Player extends JComponent implements KeyListener {
         }
     }
    
-    
     public void lowerArm() {
-    	arm.setxPos(0);
+    	arm.setxPos(1440);
     	arm.setyPos(800);
-    	setPath("src/BlueSprite1.png");
+    	setPath("src/RedSprite1.png");
     }
-   
+	
 	 public void draw(Graphics g) {
 		 //g.setColor(Color.RED);
 	     //g.fillRect((int) (xPos - width / 2), (int) (yPos - height / 2), (int) width, (int) height);
 	     sprite = new ImageIcon(path).getImage();	     
-	     g.drawImage(sprite, (int)(xPos-width/2-40), (int)(yPos-height/2), null);
+	     g.drawImage(sprite, (int)(xPos-width/2-85), (int)(yPos-height/2), null);
 	     drawHealthBar(g);
 	    }
-	
+	 
 	 private void drawHealthBar(Graphics g) {
 	        int healthBarWidth = 100;
 	        int healthBarHeight = 10;
@@ -108,13 +106,12 @@ public class Player extends JComponent implements KeyListener {
 			setVelocity(0,0);
 	}
 	
-	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_D) {
+		if(e.getKeyCode() == KeyEvent.VK_L) {
     		setVelocity(1, 0);
     		updatePosition(10);
 		}
-		else if(e.getKeyCode() == KeyEvent.VK_A) {
+		else if(e.getKeyCode() == KeyEvent.VK_J) {
     		setVelocity(-1, 0);
     		updatePosition(10);
     	}
@@ -143,7 +140,6 @@ public class Player extends JComponent implements KeyListener {
 	
 	public void setHp(int dmg) {
 		hp -= dmg;
-		System.out.println(hp);
 	}
 	
 	public void checkAlive() {
@@ -155,11 +151,13 @@ public class Player extends JComponent implements KeyListener {
 		path = newPath;
 	}
 
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {
