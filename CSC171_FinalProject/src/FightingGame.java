@@ -7,11 +7,10 @@ import java.awt.event.KeyEvent;
 
 
 public class FightingGame extends JPanel {
-    Player p1 = new Player(100, true, 300, 500, Color.BLUE, "src/BlueSprite1.png");
-    Player2 p2 = new Player2(100, true, 800, 500, Color.GREEN, "src/RedSprite1.png");
+    Player p1 = new Player(true, 360, 450, Color.BLUE, "src/BlueSprite1.png");
+    Player2 p2 = new Player2(true, 1080, 450, Color.GREEN, "src/RedSprite1.png");
     Image background;
     Image sprite;
-    Timer attackTimer;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Fighting Game");

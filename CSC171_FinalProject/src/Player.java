@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Player extends JComponent implements KeyListener {
-	int hp;
+	int hp = 100;
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
 	int time = 10;
@@ -12,12 +12,11 @@ public class Player extends JComponent implements KeyListener {
 	boolean drawArm = false;
 	Color color;
     String path;
-    double width = 120;
-    double height = 390;
+    double width = 140;
+    double height = 450;
     Image sprite;
 	
-    public Player(int hp, boolean isAlive, double xPos, double yPos, Color color, String path) {
-        this.hp = hp;
+    public Player(boolean isAlive, double xPos, double yPos, Color color, String path) {
         this.isAlive = isAlive;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -143,7 +142,6 @@ public class Player extends JComponent implements KeyListener {
 	
 	public void setHp(int dmg) {
 		hp -= dmg;
-		System.out.println(hp);
 	}
 	
 	public void checkAlive() {

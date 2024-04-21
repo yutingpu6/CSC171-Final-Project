@@ -13,10 +13,11 @@ public class Arm2{
 	}
 	
 	public boolean detectCollision(Player other) {
-		double xEdge = other.getXPos()+60;
+		double xEdge = other.getXPos()+70;
 		double x = xPos - width;
 		if(x-xEdge<=0) {
-			if(other.getYPos()-195<=yPos || yPos<=other.getYPos()+195) {
+			if(other.getYPos()-225<=yPos || yPos<=other.getYPos()+225) {
+				System.out.println("collision");
 				return true;
 			}
 		}
@@ -33,7 +34,7 @@ public class Arm2{
 
 	 public void draw(Graphics g) {
 		 g.setColor(Color.BLUE);
-		 g.fillRect((int) (xPos-width), (int) (yPos-20), (int) (width), (int) height);
+		 g.fillRect((int) (xPos-width), (int) (yPos-40), (int) (width), (int) height);
 		 g.setColor(Color.GREEN);
 	     g.drawLine((int)(xPos-width/2), (int)(yPos), (int)(xPos- width), (int)(yPos));
 	    }
