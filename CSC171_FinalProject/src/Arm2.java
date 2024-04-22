@@ -17,7 +17,6 @@ public class Arm2{
 		double x = xPos - width;
 		if(x-xEdge<=0) {
 			if(other.getYPos()-225<=yPos || yPos<=other.getYPos()+225) {
-				System.out.println("collision");
 				return true;
 			}
 		}

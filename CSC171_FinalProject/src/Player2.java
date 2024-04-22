@@ -14,7 +14,7 @@ public class Player2 extends JComponent implements KeyListener{
     String path;
     double width = 140;
     double height = 450;
-    Image sprite;
+    Image sprite, fullHeart, halfHeart, emptyHeart;
 	
     public Player2(boolean isAlive, double xPos, double yPos, Color color, String path) {
         this.isAlive = isAlive;
@@ -22,6 +22,9 @@ public class Player2 extends JComponent implements KeyListener{
         this.yPos = yPos;
         this.color = color;
         this.path = path;
+        this.fullHeart = new ImageIcon("src/pixil-frame-0.png").getImage();
+        this.halfHeart = new ImageIcon("src/pixil-frame-0 (1).png").getImage();
+        this.emptyHeart = new ImageIcon("src/pixil-frame-0 (2).png").getImage();
     }
 	
     
@@ -53,26 +56,22 @@ public class Player2 extends JComponent implements KeyListener{
 	    }
 	 
 	 private void drawHealthBar(Graphics g) {
-	        int healthBarWidth = 100;
-	        int healthBarHeight = 10;
-	       
-	        int healthBarX = (int) xPos - (healthBarWidth / 2); 
-	        int healthBarY = (int) (yPos - height / 2) - healthBarHeight - 20; 
+	        int heartWidth = 80 ;
+	        int heartHeight = 80;
+	        int heartXOffset = (heartWidth + 10) * 3 / 2;
+	        int heartX = (int) (xPos - heartXOffset / 2);
+	        int heartY = (int) (yPos - height) + 100;
 
-	       
-	        g.setColor(Color.GRAY);
-	        g.fillRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-	        
-	        
-	        double healthPercentage = (double) hp / 100;
-	        int currentHealthWidth = (int) (healthBarWidth * healthPercentage);
-
-	        g.setColor(Color.GREEN);
-	        g.fillRect(healthBarX, healthBarY, currentHealthWidth, healthBarHeight);
-
-	        
-	        g.setColor(Color.BLACK);
-	        g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+	        for (int i = 0; i < 3; i++) {
+	            Image heartImage = emptyHeart;
+	            if (hp > (i * 2) + 1) {
+	                heartImage = fullHeart;
+	            } else if (hp > i * 2) {
+	                heartImage = halfHeart;
+	            }
+	          
+	            g.drawImage(heartImage, heartX + (i * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
+	        }
 	    }
 
 	
@@ -84,25 +83,6 @@ public class Player2 extends JComponent implements KeyListener{
 	public void setVelocity(double vX, double vY) {
 		this.velocityX = vX;
 		this.velocityY = vY;
-	}
-	
-	public double distance(double x, double y, double x2, double y2) {
-		double xSum = (x-x2)*(x-x2);
-		double ySum = (y-y2)*(y-y2);
-		
-		return Math.sqrt(xSum + ySum);
-	}
-	
-	public boolean detectCollision(Player other) {
-		if(distance(xPos, yPos, other.getXPos(), other.getYPos()) <= 0)
-			return true;
-		else
-			return false;
-	}
-	
-	public void resolveCollision(Player other) {
-		if (detectCollision(other) == true)
-			setVelocity(0,0);
 	}
 	
 	public void keyPressed(KeyEvent e) {
