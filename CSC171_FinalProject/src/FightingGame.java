@@ -58,7 +58,17 @@ public class FightingGame extends JPanel {
         	if(p1.isJumping) {
         		p1.jump(10);
         	}
+        	if(!p1.isJumping) {
+        		p1.fall(10);
+        	}
+        	if(p2.isJumping) {
+        		p2.jump(10);
+        	}
+        	if(!p2.isJumping) {
+        		p2.fall(10);
+        	}
         	p1.detectWallCollision();
+        	p2.detectWallCollision();
             repaint();
         }
     }
@@ -81,6 +91,10 @@ public class FightingGame extends JPanel {
     	p1.checkAlive();
     	p2.checkAlive();
         if (!p1.isAlive || !p2.isAlive) {
+        	p1.movingLeft = false;
+        	p1.movingRight = false;
+        	p2.movingLeft = false;
+        	p2.movingRight = false;
             String winner = p1.isAlive ? "Player 1 wins!" : "Player 2 wins!";
             JOptionPane.showMessageDialog(this, winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
@@ -92,6 +106,9 @@ public class FightingGame extends JPanel {
     	switch(e.getKeyCode()) {
     	case KeyEvent.VK_W:
     		p1.isJumping = true;
+    		break;
+    	case KeyEvent.VK_I:
+    		p2.isJumping = true;
     		break;
     	case KeyEvent.VK_E:
     		p1.attack(p2);
@@ -142,6 +159,9 @@ public class FightingGame extends JPanel {
     		break;
     	case KeyEvent.VK_W:
     		p1.isJumping = false;
+    		break;
+    	case KeyEvent.VK_I:
+    		p2.isJumping = false;
     		break;
     	default: 
     		break;

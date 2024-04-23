@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Player extends JComponent{
-	int hp = 100;
 	int hits = 0;
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
@@ -38,7 +37,6 @@ public class Player extends JComponent{
         	setPath("src/BlueSprite3.png");
         	//drawArm = true;
         	if(arm.detectCollision(opponent)==true) {
-        		opponent.setHp(20);
         		opponent.setHits(1);
         	}
         }
@@ -52,35 +50,20 @@ public class Player extends JComponent{
     }
     
     public void jump(double time) {
-        // Calculate initial velocity for the jump
-    	double y0 = yPos;
-        double initialVelocityY = -0.05 * time / 2;
-
-        // Simulate upward motion
-        for (double t = 0; t < time / 2; t++) {
-            // Update velocity
-            velocityY = initialVelocityY + 0.05 * t;
-
-            // Update position
-            yPos += velocityY;
-        }
-
-        // Simulate downward motion
-        for (double t = time / 2; t <= time; t++) {
-            // Update velocity
-            velocityY = initialVelocityY + 0.05 * (time - t);
-
-            // Update position
-            yPos += velocityY;
-
-            // Check if the player has landed
-            if (yPos <= y0) {
-                // Reset position and velocity
-                yPos = y0;
-                velocityY = 0;
-                break;
-            }
-        }
+    	if(yPos >= 300) {
+    		setYVelocity(-1.5);
+    		yPos += velocityY * time;
+    	}
+    	if(yPos<=300) {
+    		isJumping = false;
+    	}
+    }
+    
+    public void fall(double time) {
+    	if(yPos <=450) {
+    		setYVelocity(1.5);
+            yPos += velocityY * time;
+    	}
     }
     
 	 public void draw(Graphics g) {
@@ -90,6 +73,7 @@ public class Player extends JComponent{
 	     g.drawImage(sprite, (int)(xPos-width/2-40), (int)(yPos-height/2), null);
 	     drawHealthBar(g);
 	    }
+	 
 	
 	 private void drawHealthBar(Graphics g) {
 	        int heartWidth = 80 ;
@@ -135,8 +119,8 @@ public class Player extends JComponent{
 	        g.drawImage(heartImage2, heartX + (1 * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
 	        g.drawImage(heartImage1, heartX + (2 * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
 	    }
+	 
 
-	
 	public void moveLeft(double time) {
 		setXVelocity(-0.8);
 		xPos += velocityX * time;
@@ -147,12 +131,16 @@ public class Player extends JComponent{
 		xPos += velocityX * time;
 	}
 	
-	public boolean detectWallCollision() {
+	public void detectWallCollision() {
 		if(xPos - width/2 <= 0) {
-			//setXVelocity(Math.abs(velocityX));
-			return true;
+			setXVelocity(Math.abs(velocityX));
+			xPos = 0 + width/2;
 		}
-		return false;
+		if(xPos + width/2 >= 1440) {
+			setXVelocity(Math.abs(velocityX));
+			System.out.println("true");
+			xPos = 1440 - width/2;
+		}
 	}
 	
 	public void setXVelocity(double vX) {
@@ -167,11 +155,6 @@ public class Player extends JComponent{
 		this.hits += hits;
 	}
 
-	
-	public int getHp() {
-		return hp;
-	}
-	
 	public boolean getAlive() {
 		return isAlive;
 	}
@@ -188,13 +171,7 @@ public class Player extends JComponent{
 		return time;
 	}
 	
-	public void setHp(int dmg) {
-		hp -= dmg;
-	}
-	
 	public void checkAlive() {
-		if (hp<=0)
-			isAlive = false;
 		if(hits>=6)
 			isAlive = false;
 	}

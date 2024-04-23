@@ -4,7 +4,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 public class Player2 extends JComponent{
-	int hp = 100;
 	int hits = 0;
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
@@ -40,7 +39,6 @@ public class Player2 extends JComponent{
         	setPath("src/RedSprite3.png");
         	//drawArm = true;
         	if(arm.detectCollision(opponent)==true) {
-        		opponent.setHp(20);
         		opponent.setHits(1);
         	}
         }
@@ -50,6 +48,23 @@ public class Player2 extends JComponent{
     	arm.setxPos(1440);
     	arm.setyPos(800);
     	setPath("src/RedSprite1.png");
+    }
+    
+    public void jump(double time) {
+    	if(yPos >= 300) {
+    		setYVelocity(-1.5);
+    		yPos += velocityY * time;
+    	}
+    	if(yPos<=300) {
+    		isJumping = false;
+    	}
+    }
+    
+    public void fall(double time) {
+    	if(yPos <=450) {
+    		setYVelocity(1.5);
+            yPos += velocityY * time;
+    	}
     }
 	
 	 public void draw(Graphics g) {
@@ -115,6 +130,18 @@ public class Player2 extends JComponent{
 		setXVelocity(-0.8);
 		xPos -= velocityX * time;
 	}
+	
+	public void detectWallCollision() {
+		if(xPos - width/2 <= 0) {
+			setXVelocity(Math.abs(velocityX));
+			xPos = 0 + width/2;
+		}
+		if(xPos + width/2 >= 1440) {
+			setXVelocity(Math.abs(velocityX));
+			System.out.println("true");
+			xPos = 1440 - width/2;
+		}
+	}
 		
 	public void setXVelocity(double vX) {
 		this.velocityX = vX;
@@ -126,10 +153,6 @@ public class Player2 extends JComponent{
 
 	public void setHits(int hits) {
 			this.hits += hits;
-	}
-		
-	public int getHp() {
-		return hp;
 	}
 	
 	public boolean getAlive() {
@@ -148,13 +171,7 @@ public class Player2 extends JComponent{
 		return time;
 	}
 	
-	public void setHp(int dmg) {
-		hp -= dmg;
-	}
-	
 	public void checkAlive() {
-		if (hp<=0)
-			isAlive = false;
 		if(hits>=6)
 			isAlive = false;
 	}
