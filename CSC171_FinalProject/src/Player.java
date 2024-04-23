@@ -76,48 +76,40 @@ public class Player extends JComponent{
 	 
 	
 	 private void drawHealthBar(Graphics g) {
-	        int heartWidth = 80 ;
-	        int heartHeight = 80;
-	        int heartXOffset = (heartWidth + 10) * 3 / 2;
-	        int heartX = (int) (xPos - heartXOffset / 2);
-	        int heartY = (int) (yPos - height) + 100;
-	        Image heartImage1, heartImage2, heartImage3;
-	        heartImage1 = fullHeart;
-	        heartImage2 = fullHeart;
-	        heartImage3 = fullHeart;
-	        if(hits==1) {
-	        	heartImage1 = halfHeart;
-	        	heartImage2 = fullHeart;
-	        	heartImage3 = fullHeart;
-	        }
-	        else if(hits==2) {
-	        	heartImage1 = emptyHeart;
-	        	heartImage2 = fullHeart;
-	        	heartImage3 = fullHeart;
-	        }
-	        else if(hits==3) {
-	        	heartImage1 = emptyHeart;
-	        	heartImage2 = halfHeart;
-	        	heartImage3 = fullHeart;
-	        }
-	        else if(hits==4) {
-	        	heartImage1 = emptyHeart;
-	        	heartImage2 = emptyHeart;
-	        	heartImage3 = fullHeart;
-	        }
-	        else if(hits==5) {
-	        	heartImage1 = emptyHeart;
-	        	heartImage2 = emptyHeart;
-	        	heartImage3 = halfHeart;
-	        }
-	        else if(hits==6) {
-	        	heartImage1 = emptyHeart;
-	        	heartImage2 = emptyHeart;
-	        	heartImage3 = emptyHeart;
-	        }
-	        g.drawImage(heartImage3, heartX + (0), heartY, heartWidth, heartHeight, null);
-	        g.drawImage(heartImage2, heartX + (1 * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
-	        g.drawImage(heartImage1, heartX + (2 * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
+		 int heartWidth = 80;
+	     int heartHeight = 80;
+	     int heartX = 10;  
+	     int heartY = 10; 
+
+	     Image heartImage1 = fullHeart, heartImage2 = fullHeart, heartImage3 = fullHeart;
+	     if (hits == 1) {
+	    	 heartImage1 = halfHeart;
+	     } 
+	     else if (hits == 2) {
+	    	 heartImage1 = emptyHeart;
+	     } 
+	     else if (hits == 3) {
+	    	 heartImage1 = emptyHeart;
+	         heartImage2 = halfHeart;
+	     } 
+	     else if (hits == 4) {
+	         heartImage1 = emptyHeart;
+	         heartImage2 = emptyHeart;
+	     } 
+	     else if (hits == 5) {
+	         heartImage1 = emptyHeart;
+	         heartImage2 = emptyHeart;
+	         heartImage3 = halfHeart;
+	     } 
+	     else if (hits == 6) {
+	         heartImage1 = emptyHeart;
+	         heartImage2 = emptyHeart;
+	         heartImage3 = emptyHeart;
+	     }
+
+	     g.drawImage(heartImage3, heartX + 2 * (heartWidth + 10), heartY, heartWidth, heartHeight, null);
+	     g.drawImage(heartImage2, heartX + 1 * (heartWidth + 10), heartY, heartWidth, heartHeight, null);
+	     g.drawImage(heartImage1, heartX, heartY, heartWidth, heartHeight, null);
 	    }
 	 
 
