@@ -43,6 +43,22 @@ public class FightingGame extends JPanel {
     
     protected class TimerCallback implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+        	if(p1.movingLeft) {
+        		p1.moveLeft(10);
+        	}
+        	if(p1.movingRight) {
+        		p1.moveRight(10);
+        	}
+        	if(p2.movingLeft) {
+        		p2.moveLeft(10);
+        	}
+        	if(p2.movingRight) {
+        		p2.moveRight(10);
+        	}
+        	if(p1.isJumping) {
+        		p1.jump(10);
+        	}
+        	p1.detectWallCollision();
             repaint();
         }
     }
@@ -61,15 +77,6 @@ public class FightingGame extends JPanel {
         	repaint();
     }
     
-    public void addComponents() {
-        this.add(p1);
-        this.add(p2);
-        this.addKeyListener(p1);
-        this.addKeyListener(p2);
-
-    }
-
-    
     private void checkGameOver() {
     	p1.checkAlive();
     	p2.checkAlive();
@@ -83,6 +90,9 @@ public class FightingGame extends JPanel {
   
     public void keyPressed(KeyEvent e) {
     	switch(e.getKeyCode()) {
+    	case KeyEvent.VK_W:
+    		p1.isJumping = true;
+    		break;
     	case KeyEvent.VK_E:
     		p1.attack(p2);
     		checkGameOver();
@@ -92,20 +102,16 @@ public class FightingGame extends JPanel {
     		p2.attack(p1);
             break;
     	case KeyEvent.VK_D:
-    		p1.setVelocity(1, 0);
-    		p1.updatePosition(10);
+    		p1.movingRight = true;
     		break;
     	case KeyEvent.VK_A:
-    		p1.setVelocity(-1, 0);
-    		p1.updatePosition(10);
+    		p1.movingLeft = true;
     		break;
     	case KeyEvent.VK_J:
-    		p2.setVelocity(-1, 0);
-    		p2.updatePosition(10);
+    		p2.movingLeft = true;
     		break;
     	case KeyEvent.VK_L:
-    		p2.setVelocity(1, 0);
-    		p2.updatePosition(10);
+    		p2.movingRight = true;
     		break;
     	default:
     		break;
@@ -121,6 +127,21 @@ public class FightingGame extends JPanel {
     	case KeyEvent.VK_U:
     		p2.drawArm = false;
     		p2.lowerArm();
+    		break;
+    	case KeyEvent.VK_D:
+    		p1.movingRight = false;
+    		break;
+    	case KeyEvent.VK_A:
+    		p1.movingLeft = false;
+    		break;
+    	case KeyEvent.VK_J:
+    		p2.movingLeft = false;
+    		break;
+    	case KeyEvent.VK_L:
+    		p2.movingRight = false;
+    		break;
+    	case KeyEvent.VK_W:
+    		p1.isJumping = false;
     		break;
     	default: 
     		break;

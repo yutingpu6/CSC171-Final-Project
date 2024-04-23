@@ -3,13 +3,17 @@ import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-public class Player2 extends JComponent implements KeyListener{
+public class Player2 extends JComponent{
 	int hp = 100;
+	int hits = 0;
 	boolean isAlive;
 	double xPos, yPos, velocityX, velocityY; 
 	int time = 10;
 	Arm2 arm;
 	boolean drawArm = false;
+	boolean movingLeft = false;
+	boolean movingRight = false; 
+	boolean isJumping = false;
 	Color color;
     String path;
     double width = 140;
@@ -37,6 +41,7 @@ public class Player2 extends JComponent implements KeyListener{
         	//drawArm = true;
         	if(arm.detectCollision(opponent)==true) {
         		opponent.setHp(20);
+        		opponent.setHits(1);
         	}
         }
     }
@@ -61,42 +66,68 @@ public class Player2 extends JComponent implements KeyListener{
 	        int heartXOffset = (heartWidth + 10) * 3 / 2;
 	        int heartX = (int) (xPos - heartXOffset / 2);
 	        int heartY = (int) (yPos - height) + 100;
-
-	        for (int i = 0; i < 3; i++) {
-	            Image heartImage = emptyHeart;
-	            if (hp > (i * 2) + 1) {
-	                heartImage = fullHeart;
-	            } else if (hp > i * 2) {
-	                heartImage = halfHeart;
-	            }
-	          
-	            g.drawImage(heartImage, heartX + (i * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
+	        Image heartImage1, heartImage2, heartImage3;
+	        heartImage1 = fullHeart;
+	        heartImage2 = fullHeart;
+	        heartImage3 = fullHeart;
+	        if(hits==1) {
+	        	heartImage1 = halfHeart;
+	        	heartImage2 = fullHeart;
+	        	heartImage3 = fullHeart;
 	        }
+	        else if(hits==2) {
+	        	heartImage1 = emptyHeart;
+	        	heartImage2 = fullHeart;
+	        	heartImage3 = fullHeart;
+	        }
+	        else if(hits==3) {
+	        	heartImage1 = emptyHeart;
+	        	heartImage2 = halfHeart;
+	        	heartImage3 = fullHeart;
+	        }
+	        else if(hits==4) {
+	        	heartImage1 = emptyHeart;
+	        	heartImage2 = emptyHeart;
+	        	heartImage3 = fullHeart;
+	        }
+	        else if(hits==5) {
+	        	heartImage1 = emptyHeart;
+	        	heartImage2 = emptyHeart;
+	        	heartImage3 = halfHeart;
+	        }
+	        else if(hits==6) {
+	        	heartImage1 = emptyHeart;
+	        	heartImage2 = emptyHeart;
+	        	heartImage3 = emptyHeart;
+	        }
+	        g.drawImage(heartImage3, heartX + (0), heartY, heartWidth, heartHeight, null);
+	        g.drawImage(heartImage2, heartX + (1 * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
+	        g.drawImage(heartImage1, heartX + (2 * (heartWidth + 10)), heartY, heartWidth, heartHeight, null);
 	    }
 
 	
-	public void updatePosition(double time) {
-		xPos += velocityX * time;
-		yPos += velocityY * time;
+	 public void moveLeft(double time) {
+			setXVelocity(0.8);
+			xPos -= velocityX * time;
 	}
-	
-	public void setVelocity(double vX, double vY) {
+		
+	public void moveRight(double time) {
+		setXVelocity(-0.8);
+		xPos -= velocityX * time;
+	}
+		
+	public void setXVelocity(double vX) {
 		this.velocityX = vX;
+	}
+		
+	public void setYVelocity(double vY) {
 		this.velocityY = vY;
 	}
-	
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_L) {
-    		setVelocity(1, 0);
-    		updatePosition(10);
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_J) {
-    		setVelocity(-1, 0);
-    		updatePosition(10);
-    	}
-		
+
+	public void setHits(int hits) {
+			this.hits += hits;
 	}
-	
+		
 	public int getHp() {
 		return hp;
 	}
@@ -124,23 +155,12 @@ public class Player2 extends JComponent implements KeyListener{
 	public void checkAlive() {
 		if (hp<=0)
 			isAlive = false;
+		if(hits>=6)
+			isAlive = false;
 	}
 	
 	public void setPath(String newPath) {
 		path = newPath;
 	}
 
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
